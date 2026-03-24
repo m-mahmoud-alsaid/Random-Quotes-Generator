@@ -1,0 +1,145 @@
+/* Start Set Rules */
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: darkslategray;
+    font-family: "Iosevka Charon", monospace;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* End Set Rules */
+/* Start Customize Screens (Responsive Design) */
+/* Small */
+@media (min-width: 768px) {
+    .container {
+        width: 750px;
+    }
+}
+
+/* Medium */
+@media (min-width: 992px) {
+    .container {
+        width: 970px;
+    }
+}
+
+/* Large */
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
+
+/* End Customize Screens (Responsive Design) */
+/* Start Variables */
+:root {
+    --main-padding: 50px;
+}
+
+/* End Variables */
+/* Start Page Title Section */
+h1 {
+    color: white;
+    text-shadow: 2px 2px 4px darkseagreen;
+    text-align: center;
+    padding-top: 20px;
+}
+
+/* End Page Title Section */
+/* Start Quotes Section */
+.quotes {
+    display: flex;
+    justify-content: center;
+}
+
+.quotes .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    border-radius: 10px;
+    padding: 25px;
+}
+
+.quotes .container .quote-box {
+    border: 1px solid darkseagreen;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    width: 500px;
+    padding: 25px 15px;
+    box-sizing: border-box;
+    position: relative;
+    box-shadow: 0 0 5px cornflowerblue;
+}
+
+.quotes .container .quote-box p {
+    padding: 15px;
+    position: relative;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}
+
+.quotes .container .quote-box i {
+    position: absolute;
+    font-size: 15px;
+    color: red;
+}
+
+.quotes .container .quote-box i:nth-child(1) {
+    top: 0;
+    left: 5px;
+}
+
+.quotes .container .quote-box i:nth-child(2) {
+    bottom: 0;
+    right: 5px;
+}
+
+.quotes .container .quote-box span {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: white;
+    background-color: red;
+    width: 20px;
+    height: 20px;
+    border-width: 0;
+    border-radius: 50%;
+}
+
+
+.quotes .container .buttons-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid darkseagreen;
+    border-radius: 10px;
+    width: 500px;
+    height: 100px;
+    box-sizing: border-box;
+    box-shadow: 0 0 5px cornflowerblue;
+}
+
+.quotes .container .buttons-box button {
+    padding: 10px;
+    border-width: 0;
+    border-radius: 10px;
+    text-transform: capitalize;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 0 5px black;
+    background-color: #206868;
+}
+
+.quotes .container .buttons-box button:not(:last-of-type) {
+    margin-right: 15px;
+}
+
+/* End Quotes Section */
