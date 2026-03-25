@@ -56,6 +56,13 @@ h1 {
     justify-content: center;
 }
 
+.quotes .auto-message {
+    display: none;
+    margin-top: 15px;
+    color: white;
+    font-weight: bold;
+}
+
 .quotes .container {
     display: flex;
     flex-direction: column;

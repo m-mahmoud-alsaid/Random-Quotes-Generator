@@ -5,6 +5,7 @@ let quote = document.getElementById('quote-txt');
 let generateButton = document.getElementById('button-1');
 let autoGenerateButton = document.getElementById('button-2');
 let stopGenerateButton = document.getElementById('button-3');
+let autoMessage = document.getElementById('auto-message');
 
 // Create Quote Counter
 let counter = Number(quoteCounter.textContent);
@@ -77,10 +78,13 @@ autoGenerateButton.onclick = function () {
         quoteCounter.textContent = '';
         quoteCounter.appendChild(counterTxt);
     }, 3000);
+    autoMessage.textContent = "Auto: ON";
+    autoMessage.style.display = "block";
 };
 
 // Stop Generate Quotes 
 stopGenerateButton.onclick = () => {
     // Clear Any Intervals 
     clearInterval(autoQuoteInterval);
+    autoMessage.textContent = "Auto: OFF";
 };
