@@ -3,6 +3,8 @@ let quoteCounter = document.getElementsByTagName('span')[0];
 let quoteBox = document.getElementById('quote-box');
 let quote = document.getElementById('quote-txt');
 let generateButton = document.getElementById('button-1');
+let autoGenerateButton = document.getElementById('button-2');
+let stopGenerateButton = document.getElementById('button-3');
 
 // Create Quote Counter
 let counter = Number(quoteCounter.textContent);
@@ -48,4 +50,37 @@ generateButton.onclick = function () {
     let counterTxt = document.createTextNode(counter);
     quoteCounter.textContent = '';
     quoteCounter.appendChild(counterTxt);
+};
+
+// Create New Interval 
+let autoQuoteInterval;
+// Auto Generate Quotes 
+autoGenerateButton.onclick = function () {
+    // Check If objData Is Defined
+    if (!objData) return;
+
+    // End Any Previous Intervals 
+    clearInterval(autoQuoteInterval);
+
+    // Set Interval To Show New Quote Every 2 Seconds 
+    autoQuoteInterval = setInterval(() => {
+        // Create Random Number
+        let rndNumber = generateRandom(0, objData.quotes.length);
+
+        // Add Quote To Quote Field 
+        let quoteTxt = document.createTextNode(objData.quotes[rndNumber].quote);
+        quote.textContent = '';
+        quote.appendChild(quoteTxt);
+
+        // Change Counter
+        let counterTxt = document.createTextNode(rndNumber);
+        quoteCounter.textContent = '';
+        quoteCounter.appendChild(counterTxt);
+    }, 3000);
+};
+
+// Stop Generate Quotes 
+stopGenerateButton.onclick = () => {
+    // Clear Any Intervals 
+    clearInterval(autoQuoteInterval);
 };
