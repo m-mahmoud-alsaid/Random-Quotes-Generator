@@ -1,6 +1,5 @@
 // Access HTML Elements
 let quoteCounter = document.getElementsByTagName('span')[0];
-let quoteBox = document.getElementById('quote-box');
 let quote = document.getElementById('quote-txt');
 let generateButton = document.getElementById('button-1');
 let autoGenerateButton = document.getElementById('button-2');
@@ -9,7 +8,7 @@ let autoMessage = document.getElementById('auto-message');
 
 let autoInterval;
 
-// Using Promise  
+// Using Promise To Deal With Request 
 let p = new Promise((resolve, reject) => {
     let req = new XMLHttpRequest();
     req.open("GET", "quotes.json");
@@ -30,6 +29,9 @@ p.then(
     (quotesDataArr) => {
         // Generate Quote Button 
         generateButton.onclick = function () {
+            clearInterval(autoInterval);
+            autoMessage.textContent = "Auto: OFF";
+            autoMessage.style.display = "none";
             let rand = Math.floor(Math.random() * quotesDataArr.length);
             let quoteTxt = quotesDataArr[rand].quote;
             quoteCounter.textContent = rand + 1;
