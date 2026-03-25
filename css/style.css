@@ -78,7 +78,6 @@ h1 {
 
 .quotes .container .quote-box p {
     padding: 15px;
-    position: relative;
     color: white;
     text-align: center;
     font-weight: bold;
@@ -91,27 +90,30 @@ h1 {
 }
 
 .quotes .container .quote-box i:nth-child(1) {
-    top: 0;
+    top: 5px;
     left: 5px;
 }
 
 .quotes .container .quote-box i:nth-child(2) {
-    bottom: 0;
+    bottom: 5px;
     right: 5px;
 }
 
 .quotes .container .quote-box span {
     position: absolute;
-    top: -10px;
+    top: -20px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
     color: white;
     background-color: red;
-    width: 20px;
-    height: 20px;
+    width: 35px;
+    height: 35px;
     border-width: 0;
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 
@@ -136,6 +138,10 @@ h1 {
     font-weight: bold;
     box-shadow: 0 0 5px black;
     background-color: #206868;
+}
+
+.quotes .container .buttons-box button:last-of-type {
+    background-color: red;
 }
 
 .quotes .container .buttons-box button:not(:last-of-type) {
