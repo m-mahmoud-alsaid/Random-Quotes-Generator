@@ -7,84 +7,52 @@ let autoGenerateButton = document.getElementById('button-2');
 let stopGenerateButton = document.getElementById('button-3');
 let autoMessage = document.getElementById('auto-message');
 
-// Create Quote Counter
-let counter = Number(quoteCounter.textContent);
+let autoInterval;
 
-// Create Random Numbers Generator Function
-let generateRandom = (min, max) => {
-    return Math.floor(Math.random() * (max - min)) + min;
-};
+// Using Promise  
+let p = new Promise((resolve, reject) => {
+    let req = new XMLHttpRequest();
+    req.open("GET", "quotes.json");
+    req.send();
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                let objData = JSON.parse(this.responseText);
+                resolve(objData.quotes);
+            } else {
+                reject(Error('Request Error.'));
+            }
+        }
+    };
+});
 
-// Create And Send Request
-let req = new XMLHttpRequest();
-req.open("GET", "quotes.json");
-req.send();
-
-// Create Object Data
-let objData;
-
-// IF Request And Response Success Display Quotes
-req.onreadystatechange = function () {
-    if (this.readyState === 4 && this.status === 200) {
-        // Create Object Data
-        objData = JSON.parse(this.responseText);
-    }
-};
-
-// Generate Quote When Click On Generate Quote Button 
-generateButton.onclick = function () {
-    // Check If objData Is Defined
-    if (!objData) return;
-
-    // Create Random Number
-    let rndNumber = generateRandom(0, objData.quotes.length);
-
-    // Increase Quote Counter 
-    counter++;
-
-    // Add Quote To Quote Field 
-    let quoteTxt = document.createTextNode(objData.quotes[rndNumber].quote);
-    quote.textContent = '';
-    quote.appendChild(quoteTxt);
-
-    // Change Counter
-    let counterTxt = document.createTextNode(counter);
-    quoteCounter.textContent = '';
-    quoteCounter.appendChild(counterTxt);
-};
-
-// Create New Interval 
-let autoQuoteInterval;
-// Auto Generate Quotes 
-autoGenerateButton.onclick = function () {
-    // Check If objData Is Defined
-    if (!objData) return;
-
-    // End Any Previous Intervals 
-    clearInterval(autoQuoteInterval);
-
-    // Set Interval To Show New Quote Every 2 Seconds 
-    autoQuoteInterval = setInterval(() => {
-        // Create Random Number
-        let rndNumber = generateRandom(0, objData.quotes.length);
-
-        // Add Quote To Quote Field 
-        let quoteTxt = document.createTextNode(objData.quotes[rndNumber].quote);
-        quote.textContent = '';
-        quote.appendChild(quoteTxt);
-
-        // Change Counter
-        let counterTxt = document.createTextNode(rndNumber);
-        quoteCounter.textContent = '';
-        quoteCounter.appendChild(counterTxt);
-    }, 3000);
-    autoMessage.textContent = "Auto: ON";
-    autoMessage.style.display = "block";
-};
-
-// Stop Generate Quotes 
-stopGenerateButton.onclick = () => {
-    // Clear Any Intervals 
-    clearInterval(autoQuoteInterval);
-    autoMessage.textContent = "Auto: OFF";
-};
+p.then(
+    (quotesDataArr) => {
+        // Generate Quote Button 
+        generateButton.onclick = function () {
+            let rand = Math.floor(Math.random() * quotesDataArr.length);
+            let quoteTxt = quotesDataArr[rand].quote;
+            quoteCounter.textContent = rand + 1;
+            quote.textContent = quoteTxt;
+        };
+        // Auto Generate Quote Button 
+        autoGenerateButton.onclick = function () {
+            clearInterval(autoInterval);
+            autoInterval = setInterval(() => {
+                let rand = Math.floor(Math.random() * quotesDataArr.length);
+                let quoteTxt = quotesDataArr[rand].quote;
+                quoteCounter.textContent = rand + 1;
+                quote.textContent = quoteTxt;
+            }, 3000);
+            autoMessage.textContent = "Auto: ON";
+            autoMessage.style.display = "block";
+        };
+        // Stop Generate Quote Button 
+        stopGenerateButton.onclick = function () {
+            clearInterval(autoInterval);
+            autoMessage.textContent = "Auto: OFF";
+        };
+    })
+    .catch((error) => {
+        console.log(error);
+    });
