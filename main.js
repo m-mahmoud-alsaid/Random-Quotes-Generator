@@ -8,53 +8,34 @@ let autoMessage = document.getElementById('auto-message');
 
 let autoInterval;
 
-// Using Promise To Deal With Request 
-let p = new Promise((resolve, reject) => {
-    let req = new XMLHttpRequest();
-    req.open("GET", "quotes.json");
-    req.send();
-    req.onreadystatechange = function () {
-        if (this.readyState === 4) {
-            if (this.status === 200) {
-                let objData = JSON.parse(this.responseText);
-                resolve(objData.quotes);
-            } else {
-                reject(Error('Request Error.'));
-            }
-        }
-    };
-});
-
-p.then(
-    (quotesDataArr) => {
+// Using Fetch To Deal With Request  
+fetch('quotes.json')
+    .then((response) => {
+        return response.json();
+    }).then((data) => {
         // Generate Quote Button 
-        generateButton.onclick = function () {
+        generateButton.onclick = () => {
             clearInterval(autoInterval);
             autoMessage.textContent = "Auto: OFF";
-            autoMessage.style.display = "none";
-            let rand = Math.floor(Math.random() * quotesDataArr.length);
-            let quoteTxt = quotesDataArr[rand].quote;
-            quoteCounter.textContent = rand + 1;
+            let rand = Math.floor(Math.random() * data.quotes.length);
+            let quoteTxt = data.quotes[rand].quote;
             quote.textContent = quoteTxt;
+            quoteCounter.textContent = rand + 1;
         };
         // Auto Generate Quote Button 
-        autoGenerateButton.onclick = function () {
+        autoGenerateButton.onclick = () => {
             clearInterval(autoInterval);
             autoInterval = setInterval(() => {
-                let rand = Math.floor(Math.random() * quotesDataArr.length);
-                let quoteTxt = quotesDataArr[rand].quote;
-                quoteCounter.textContent = rand + 1;
+                let rand = Math.floor(Math.random() * data.quotes.length);
+                let quoteTxt = data.quotes[rand].quote;
                 quote.textContent = quoteTxt;
+                quoteCounter.textContent = rand + 1;
             }, 3000);
             autoMessage.textContent = "Auto: ON";
-            autoMessage.style.display = "block";
         };
-        // Stop Generate Quote Button 
-        stopGenerateButton.onclick = function () {
+        // Stop Auto Generate Quote Button 
+        stopGenerateButton.onclick = () => {
             clearInterval(autoInterval);
             autoMessage.textContent = "Auto: OFF";
         };
     })
-    .catch((error) => {
-        console.log(error);
-    });
