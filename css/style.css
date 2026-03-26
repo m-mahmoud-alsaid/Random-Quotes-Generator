@@ -57,7 +57,7 @@ h1 {
 }
 
 .quotes .auto-message {
-    display: none;
+    display: block;
     margin-top: 15px;
     color: white;
     font-weight: bold;

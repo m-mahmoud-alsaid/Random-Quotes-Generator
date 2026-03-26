@@ -8,34 +8,34 @@ let autoMessage = document.getElementById('auto-message');
 
 let autoInterval;
 
-// Using Fetch To Deal With Request  
-fetch('quotes.json')
-    .then((response) => {
-        return response.json();
-    }).then((data) => {
-        // Generate Quote Button 
-        generateButton.onclick = () => {
-            clearInterval(autoInterval);
-            autoMessage.textContent = "Auto: OFF";
-            let rand = Math.floor(Math.random() * data.quotes.length);
-            let quoteTxt = data.quotes[rand].quote;
-            quote.textContent = quoteTxt;
-            quoteCounter.textContent = rand + 1;
-        };
-        // Auto Generate Quote Button 
-        autoGenerateButton.onclick = () => {
-            clearInterval(autoInterval);
-            autoInterval = setInterval(() => {
-                let rand = Math.floor(Math.random() * data.quotes.length);
-                let quoteTxt = data.quotes[rand].quote;
-                quote.textContent = quoteTxt;
-                quoteCounter.textContent = rand + 1;
-            }, 3000);
-            autoMessage.textContent = "Auto: ON";
-        };
-        // Stop Auto Generate Quote Button 
-        stopGenerateButton.onclick = () => {
-            clearInterval(autoInterval);
-            autoMessage.textContent = "Auto: OFF";
-        };
-    })
+// Functions  
+async function getData() {
+    let response = await fetch('quotes.json');
+    let data = await response.json();
+    return data;
+};
+
+async function generateQuote() {
+    let q = await getData();
+    let rand = Math.floor(Math.random() * q.quotes.length);
+    let gQuote = q.quotes[rand].quote;
+    quote.textContent = gQuote;
+    quoteCounter.textContent = rand + 1;
+};
+
+async function autoGenerateQuote() {
+    clearInterval(autoInterval);
+    autoInterval = setInterval(generateQuote, 3000);
+    autoMessage.textContent = "Auto: ON";
+};
+
+async function stopAutoGenerateQuote() {
+    clearInterval(autoInterval);
+    autoMessage.textContent = "Auto: OFF";
+};
+
+
+// Events 
+generateButton.onclick = generateQuote;
+autoGenerateButton.onclick = autoGenerateQuote;
+stopGenerateButton.onclick = stopAutoGenerateQuote;
